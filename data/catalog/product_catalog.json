@@ -1,0 +1,24 @@
+[
+  {
+    "id": "ETF_APAC_Quality",
+    "name": "APAC Quality ETF",
+    "type": "ETF",
+    "region": "APAC",
+    "terms": "UCITS; Equity; Min investment $100; Index-tracking quality tilt.",
+    "fees": "TER 0.19%",
+    "eligibility": "Retail eligible; No tobacco exposure policy; KIID available.",
+    "riskLabel": "moderate",
+    "description": "Focus on high-quality APAC equities with stable earnings."
+  },
+  {
+    "id": "ETF_Global_Core",
+    "name": "Global Core ETF",
+    "type": "ETF",
+    "region": "Global",
+    "terms": "UCITS; Equity; Broad market exposure; Min $50.",
+    "fees": "TER 0.07%",
+    "eligibility": "Retail eligible; ESG neutral.",
+    "riskLabel": "moderate",
+    "description": "Global market beta with large/mid cap exposure."
+  }
+]
