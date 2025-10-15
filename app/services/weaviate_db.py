@@ -148,4 +148,19 @@ def upsert_user_profile(profile: dict, vector: list | None):
         "constraints": profile.get("constraints", []),
     }, vector=vector)
 
-    
+def list_all_docs(limit: int = 1000):
+    """
+    Returns all Document objects' lightweight info for KG building.
+    """
+    coll = get_client().collections.get(DOCS)
+    # v4.9: fetch_objects is the simplest way to iterate
+    res = coll.query.fetch_objects(limit=limit)
+    out = []
+    for o in res.objects:
+        p = o.properties
+        out.append({
+            "title": p.get("title"),
+            "content": p.get("content"),
+            "source": p.get("source"),
+        })
+    return out    

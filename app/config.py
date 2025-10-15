@@ -11,7 +11,7 @@ class Settings(BaseModel):
     log_level: str = os.getenv("LOG_LEVEL", "INFO")
 
     # OpenAI key (required to generate answers/explanations)
-    openai_api_key: str = os.getenv("OPENAI_API_KEY", "")
+    openai_api_key: str = os.getenv("LLM_API_KEY", "")
 
     # Local embedded Weaviate config (no external DB needed)
     weaviate_embedded: bool = os.getenv("WEAVIATE_EMBEDDED", "1") == "1"

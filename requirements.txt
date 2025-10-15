@@ -2,15 +2,18 @@ fastapi==0.115.2
 uvicorn[standard]==0.30.6
 python-dotenv==1.0.1
 pydantic==2.8.2
-openai==1.73.0
-tiktoken==0.7.0
-weaviate-client==4.9.2
+openai==1.109.1
+tiktoken==0.12.0
+weaviate-client==4.17.0
 sentence-transformers==2.7.0
 --extra-index-url https://download.pytorch.org/whl/cpu
 torch==2.6.0
-pypdf==5.0.0
+pypdf==6.1.1
 orjson==3.10.7
 langchain==0.3.25
 langgraph==0.2.19
 crewai==0.193.2
 neo4j==5.23.1
+crewai-tools==0.76.0
+httpx==0.28.1
+

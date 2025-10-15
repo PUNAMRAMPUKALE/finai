@@ -2,35 +2,21 @@ import os
 from openai import OpenAI
 
 def get_client():
-    """
-    Create a language model client.
-    Automatically uses OpenRouter if OPENROUTER_API_KEY is set,
-    otherwise defaults to OpenAI.
-    """
-    if os.getenv("OPENROUTER_API_KEY"):
-        print("🔄 Using OpenRouter client")
-        return OpenAI(
-            api_key=os.getenv("OPENROUTER_API_KEY"),
-            base_url="https://openrouter.ai/api/v1"
-        )
-    elif os.getenv("OPENAI_API_KEY"):
-        print("🧠 Using OpenAI client")
-        return OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
-    else:
-        raise ValueError("❌ No API key found. Set OPENROUTER_API_KEY or OPENAI_API_KEY in .env")
+    return OpenAI(
+        api_key=os.getenv("LLM_API_KEY"),
+        base_url=os.getenv("LLM_API_BASE"),  # Groq’s OpenAI-compatible base
+    )
 
-
-def chat_complete(prompt: str, model: str = "mistralai/mistral-7b-instruct"):
-    """
-    Use OpenRouter (or OpenAI fallback) for chat completions.
-    """
+def chat_complete(prompt: str, model: str | None = None) -> str:
     client = get_client()
-    response = client.chat.completions.create(
+    model = model or os.getenv("LLM_MODEL", "llama-3.1-8b-instant")
+    resp = client.chat.completions.create(
         model=model,
         messages=[
-            {"role": "system", "content": "You are a financial analysis assistant."},
+            {"role": "system", "content": "You are a helpful, factual financial assistant."},
             {"role": "user", "content": prompt},
         ],
         temperature=0.2,
+        max_tokens=512,
     )
-    return response.choices[0].message.content
+    return (resp.choices[0].message.content or "").strip()

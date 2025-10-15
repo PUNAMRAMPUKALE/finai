@@ -1,36 +1,39 @@
 # app/services/matching.py
-from typing import List, Dict
-from app.services.embeddings import embed_text, embed_texts
-from app.services.weaviate_db import search_similar_in_products
-from app.services.openai_client import chat_complete
+from __future__ import annotations
+from typing import Any, Dict, List
+import json
+from typing import Any, Dict, List, Optional
+from app.tools.product_match import product_match  # <-- this exists
 
-def find_top_products_for_profile(profile: dict, top_k: int = 5) -> List[Dict]:
+def find_top_products_for_profile(profile: Dict[str, Any]) -> List[Dict[str, Any]]:
     """
-    Convert the user's profile to a single descriptive sentence and embed it,
-    then search closest products by meaning.
+    Returns only the list of matched products for the given profile.
     """
-    text = (
-        f"goal {profile['goal']}; horizon {profile['horizon_years']} years; "
-        f"risk {profile['risk']}; preferences {', '.join(profile.get('preferences', []))}; "
-        f"constraints {', '.join(profile.get('constraints', []))}"
-    )
-    vec = embed_text(text)
-    return search_similar_in_products(vec, limit=top_k)
+    result = product_match(profile_json=profile)
+    return result.get("products", [])
 
-def explain_recommendations(profile: dict, products: List[Dict]) -> str:
+def explain_recommendations(
+    profile: Dict[str, Any],
+    products: Optional[List[Dict[str, Any]]] = None,
+) -> str:
     """
-    Ask OpenAI to summarize why these products fit this profile, referencing items [1], [2], ...
+    Return a natural-language explanation. Accepts an optional `products`
+    argument so callers can pass already-computed hits.
     """
-    lines = []
-    for i, p in enumerate(products, 1):
-        lines.append(f"[{i}] {p['name']} — fees: {p.get('fees','')}; region: {p.get('region','')}; risk: {p.get('riskLabel','')}")
-    catalog = "\n".join(lines)
-    prompt = f"""User profile: goal={profile['goal']}, horizon={profile['horizon_years']}y, risk={profile['risk']},
-preferences={profile.get('preferences', [])}, constraints={profile.get('constraints', [])}.
+    # We rely on the LLM/tool's own explanation for consistency.
+    result = product_match(profile_json=profile)
+    return result.get("explanation", "No explanation available.")
 
-Products:
-{catalog}
+def product_match_json_for_profile(profile: Dict[str, Any]) -> str:
+    """
+    Returns the full product_match output as a JSON string.
+    Used by the Crew route that interpolates {product_match_json}.
+    """
+    result = product_match(profile_json=profile)
+    return json.dumps(result)
 
-Rank them and give 2-3 short reasons each. Reference by [1], [2], etc.
-"""
-    return chat_complete(prompt)
+__all__ = [
+    "find_top_products_for_profile",
+    "explain_recommendations",
+    "product_match_json_for_profile",
+]

@@ -1,0 +1,81 @@
+# --- Python ---
+__pycache__/
+*.py[cod]
+*$py.class
+
+# --- Virtual environment ---
+.venv/
+env/
+venv/
+
+# --- Environment & secrets ---
+.env
+*.env
+*.key
+*.pem
+
+# --- Logs & debug files ---
+*.log
+logs/
+debug.log
+
+# --- Byte-compiled / optimized / DLL files ---
+*.pyc
+*.pyo
+*.pyd
+
+# --- Jupyter notebooks checkpoints ---
+.ipynb_checkpoints
+
+# --- Build / distribution ---
+build/
+dist/
+*.egg-info/
+.eggs/
+
+# --- Unit test / coverage reports ---
+.coverage
+.tox/
+.nox/
+.cache/
+.pytest_cache/
+
+# --- IDE / Editor specific ---
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# --- OS generated files ---
+.DS_Store
+Thumbs.db
+
+# --- Data & temp folders ---
+data/
+tmp/
+temp/
+__temp__/
+
+# --- Local scripts and experiments ---
+scripts/
+notebooks/
+*.bak
+*.tmp
+
+# --- Dependency management ---
+requirements.lock
+poetry.lock
+Pipfile.lock
+
+# --- Shell scripts / dev scripts ---
+run_dev.sh
+
+# --- Project-specific folders ---
+# Adjust as needed:
+app/__pycache__/
+app/routes/__pycache__/
+app/services/__pycache__/
+app/tools/__pycache__/
+
+# --- VS Code workspace settings ---
+*.code-workspace

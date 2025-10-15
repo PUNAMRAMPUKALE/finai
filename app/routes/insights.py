@@ -3,6 +3,8 @@ from fastapi import APIRouter
 from app.schemas import InsightRequest, InsightResponse
 from app.services.rag import answer_with_rag
 
+from typing import Optional
+
 router = APIRouter(prefix="/insights", tags=["insights"])
 
 @router.post("", response_model=InsightResponse)
