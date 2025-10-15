@@ -1,3 +1,4 @@
+# app/services/openai_client.py
 import os
 from openai import OpenAI
 
@@ -17,6 +18,6 @@ def chat_complete(prompt: str, model: str | None = None) -> str:
             {"role": "user", "content": prompt},
         ],
         temperature=0.2,
-        max_tokens=512,
+        max_tokens=700,
     )
     return (resp.choices[0].message.content or "").strip()

@@ -31,6 +31,7 @@ def _ensure_collections(client):
         Property(name="source", data_type=DataType.TEXT),
     ])
     ensure_coll(PROD, [
+        Property(name="productId", data_type=DataType.TEXT),
         Property(name="name", data_type=DataType.TEXT),
         Property(name="type", data_type=DataType.TEXT),
         Property(name="terms", data_type=DataType.TEXT),
@@ -38,6 +39,7 @@ def _ensure_collections(client):
         Property(name="eligibility", data_type=DataType.TEXT),
         Property(name="region", data_type=DataType.TEXT),
         Property(name="riskLabel", data_type=DataType.TEXT),
+        Property(name="description", data_type=DataType.TEXT),
     ])
     ensure_coll(USER, [
         Property(name="profileId", data_type=DataType.TEXT),
@@ -104,13 +106,15 @@ def insert_product(prod: dict, vector: list | None):
     """
     coll = get_client().collections.get(PROD)
     payload = {
-        "name": prod["name"],
+        "productId": prod.get("id") or prod.get("productId") or prod.get("name"),
+        "name": prod.get("name", ""),
         "type": prod.get("type", ""),
         "terms": (prod.get("terms", "") + " " + prod.get("description", "")).strip(),
         "fees": prod.get("fees", ""),
         "eligibility": prod.get("eligibility", ""),
         "region": prod.get("region", ""),
         "riskLabel": prod.get("riskLabel", ""),
+        "description": prod.get("description", ""),
     }
     coll.data.insert(payload, vector=vector)
 
@@ -122,6 +126,7 @@ def search_similar_in_products(query_vector: list, limit: int = 5):
         p = o.properties
         dist = getattr(o.metadata, "distance", None)
         items.append({
+            "productId": p.get("productId"),
             "name": p.get("name"),
             "type": p.get("type"),
             "terms": p.get("terms"),
@@ -129,6 +134,7 @@ def search_similar_in_products(query_vector: list, limit: int = 5):
             "eligibility": p.get("eligibility"),
             "region": p.get("region"),
             "riskLabel": p.get("riskLabel"),
+            "description": p.get("description"),
             "distance": dist,
         })
     return items
