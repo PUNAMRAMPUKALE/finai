@@ -1,8 +1,8 @@
-# app/services/neo4j_client.py
-# Purpose: single Neo4j driver used across the app.
 from neo4j import GraphDatabase
 from app.config import settings
+from app.core.logging import get_logger
 
+log = get_logger("neo4j")
 _driver = None
 
 def get_driver():
@@ -15,5 +15,10 @@ def get_driver():
     return _driver
 
 def run_cypher(query: str, params: dict | None = None):
-    with get_driver().session() as session:
-        return list(session.run(query, params or {}))
+    try:
+        with get_driver().session() as session:
+            return list(session.run(query, params or {}))
+    except Exception:
+        # Log a safe snippet + param keys (not values) to avoid leaking secrets
+        log.exception("neo4j_cypher_failed", extra={"snippet": query[:120], "params_keys": list((params or {}).keys())})
+        raise

@@ -16,4 +16,5 @@ crewai==0.193.2
 neo4j==5.23.1
 crewai-tools==0.76.0
 httpx==0.28.1
+prometheus_client==0.20.0
 

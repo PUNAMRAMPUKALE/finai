@@ -1,5 +1,8 @@
 from typing import List, Dict, Any
 from .weaviate_client import get_client, PROD
+from app.core.logging import get_logger
+
+log = get_logger("weaviate.products")
 
 def insert_product(prod: Dict[str, Any], vector: list | None):
     coll = get_client().collections.get(PROD)
@@ -14,11 +17,20 @@ def insert_product(prod: Dict[str, Any], vector: list | None):
         "riskLabel": prod.get("riskLabel", ""),
         "description": prod.get("description", ""),
     }
-    coll.data.insert(payload, vector=vector)
+    try:
+        coll.data.insert(payload, vector=vector)
+    except Exception:
+        log.exception("weaviate_insert_product_failed", extra={"productId": payload["productId"], "name": payload["name"]})
+        raise
 
 def search_similar_in_products(query_vector: list, limit: int = 5):
     coll = get_client().collections.get(PROD)
-    res = coll.query.near_vector(query_vector, limit=limit, return_metadata=["distance"])
+    try:
+        res = coll.query.near_vector(query_vector, limit=limit, return_metadata=["distance"])
+    except Exception:
+        log.exception("weaviate_search_products_failed", extra={"limit": limit})
+        raise
+
     items = []
     for o in res.objects:
         p = o.properties
