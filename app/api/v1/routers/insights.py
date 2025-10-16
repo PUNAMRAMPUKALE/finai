@@ -1,7 +1,7 @@
 # app/routes/insights.py
 from fastapi import APIRouter
-from app.schemas import InsightRequest, InsightResponse
-from app.services.rag import answer_with_rag
+from app.api.v1.schemas import InsightRequest, InsightResponse
+from app.domain.services.rag import answer_with_rag
 
 from typing import Optional
 

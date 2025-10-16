@@ -1,39 +1,23 @@
-# app/routes/recommend.py
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, Depends, HTTPException
 from pydantic import BaseModel
-from app.services.matching import find_top_products_for_profile, explain_recommendations
+from app.api.v1.deps import get_recommend
 
+# ✅ add the prefix so the route is /api/v1/recommend
 router = APIRouter(prefix="/recommend", tags=["recommend"])
-
 
 class RecommendReq(BaseModel):
     profile: dict
 
-
 @router.post("")
-def recommend(req: RecommendReq):
-    """
-    POST /recommend
-    Uses the new LLM-based product matching system.
-    - Embeds the profile.
-    - Retrieves candidate products from Weaviate.
-    - LLM selects and ranks the top matches.
-    """
-    profile = req.profile
-
-    # normalize key names for backward compatibility
-    profile.setdefault("riskTolerance", profile.get("risk"))
-    profile.setdefault("investmentGoal", profile.get("goal"))
-    profile.setdefault("horizonYears", profile.get("horizon_years"))
+def recommend(req: RecommendReq, recommend_usecase = Depends(get_recommend)):
+    # normalize keys for compatibility
+    p = req.profile
+    p.setdefault("riskTolerance", p.get("risk"))
+    p.setdefault("investmentGoal", p.get("goal"))
+    p.setdefault("horizonYears", p.get("horizon_years"))
 
     try:
-        hits = find_top_products_for_profile(profile)
-        rationale = explain_recommendations(profile, hits)
-        return {
-            "status": "ok",
-            "count": len(hits),
-            "products": hits,
-            "explanation": rationale,
-        }
+        result = recommend_usecase(p)  # calls app/domain/services/recommendation.py
+        return {"status": "ok", **result}
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Recommendation error: {e}")
+        raise HTTPException(500, f"Recommendation error: {e}")

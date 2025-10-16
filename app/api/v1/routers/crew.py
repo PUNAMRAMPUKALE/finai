@@ -1,8 +1,10 @@
-# app/routes/crew.py
+# app/api/v1/routers/crew.py
 from fastapi import APIRouter
 from pydantic import BaseModel
-from app.services.crew import build_crew
-from app.services.matching import product_match_json_for_profile  # <-- keep this import
+import json
+
+from app.domain.services.crew import build_crew                     # unchanged location after move
+from app.domain.services.recommendation import recommend           # ✅ use new LLM recommender
 
 router = APIRouter()
 
@@ -34,12 +36,15 @@ def _crew_text(r):
 
 @router.post("/crew/advice")
 def crew_advice(req: AdviceReq):
-    tool_json = product_match_json_for_profile(req.profile)        # <-- compute it
+    # Precompute product-match JSON using the new LLM recommender
+    match_payload = recommend(req.profile)                 # dict with products + explanation
+    tool_json = json.dumps(match_payload)                  # what the agent is instructed to echo
+
     crew_instance = build_crew()
     result = crew_instance.kickoff(inputs={
         "question": req.question,
         "profile": req.profile,
-        "product_match_json": tool_json,                           # <-- PASS IT
+        "product_match_json": tool_json,                   # passed into the matcher task
     })
 
     tasks = getattr(result, "tasks_output", []) or []

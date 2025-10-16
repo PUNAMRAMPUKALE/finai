@@ -1,10 +1,17 @@
-# app/services/rag.py  (unchanged)
+# app/domain/services/rag.py
 from typing import List, Tuple
-from app.services.embeddings import embed_text
-from app.services.weaviate_db import search_similar_in_docs
-from app.services.openai_client import chat_complete
+from app.ml.embeddings import embed_text
+from app.adapters.vector.weaviate_docs import search_similar_in_docs
+from app.core.llm import chat_complete
 
 def answer_with_rag(question: str, top_k: int = 5) -> Tuple[str, List[str]]:
+    """
+    RAG flow:
+    1) embed question
+    2) retrieve top-K doc chunks
+    3) build numbered context
+    4) ask LLM to answer using ONLY the context, with [1], [2] citations
+    """
     q_vec = embed_text(question)
     hits = search_similar_in_docs(q_vec, limit=top_k)
 
@@ -20,14 +27,15 @@ def answer_with_rag(question: str, top_k: int = 5) -> Tuple[str, List[str]]:
         sources.append(f"{i}:{src}")
 
     context = "\n\n".join(blocks)
-    prompt = f"""You are a fintech analyst. Only use the context below to answer and cite with [1], [2], etc.
 
-Question: {question}
+    system = "You are a fintech analyst. Only use the provided context; cite with [1], [2], etc."
+    user = f"""Question: {question}
 
 Context:
 {context}
 
 Write a concise answer with numbered citations. If unknown, say so.
 """
-    answer = chat_complete(prompt)
+
+    answer = chat_complete(system=system, user=user, temperature=0.2, max_tokens=700)
     return answer, sources

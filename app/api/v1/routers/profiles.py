@@ -1,8 +1,9 @@
 # app/routes/profiles.py
 from fastapi import APIRouter
-from app.schemas import Profile
-from app.services.embeddings import embed_text
-from app.services.weaviate_db import upsert_user_profile
+from app.api.v1.schemas import Profile
+from app.ml.embeddings import embed_text
+from app.adapters.vector.weaviate_profiles import upsert_user_profile
+
 
 router = APIRouter(prefix="/profiles", tags=["profiles"])
 

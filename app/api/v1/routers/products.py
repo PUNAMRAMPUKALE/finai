@@ -1,8 +1,8 @@
 # app/routes/products.py
 from fastapi import APIRouter, HTTPException
-from app.schemas import IngestResponse
-from app.services.embeddings import embed_texts
-from app.services.weaviate_db import insert_product
+from app.api.v1.schemas import IngestResponse
+from app.ml.embeddings import embed_texts
+from app.adapters.vector.weaviate_products import insert_product  # ✅
 import json, os
 
 router = APIRouter(prefix="/ingest/products", tags=["ingest-products"])

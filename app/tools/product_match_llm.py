@@ -1,37 +1,18 @@
-# app/tools/product_match.py
+# app/tools/product_match_llm.py
 from __future__ import annotations
 from typing import Any, Dict, List, Tuple
 import json
 import re
 
-from app.services.embeddings import embed_text
-from app.services.weaviate_db import search_similar_in_products
-from app.services.openai_client import chat_complete
+from app.core.llm import chat_complete
 
 
-def _profile_to_text(profile: Dict[str, Any]) -> str:
-    """
-    Accepts both shapes:
-    - { risk, goal, horizon_years, preferences[], constraints[] }
-    - { riskTolerance, investmentGoal, horizonYears, preferences[], constraints[] }
-    """
-    risk = (profile.get("riskTolerance") or profile.get("risk") or "").lower()
-    goal = (profile.get("investmentGoal") or profile.get("goal") or "").lower()
-    horizon = profile.get("horizonYears") or profile.get("horizon_years") or ""
-    prefs = profile.get("preferences") or []
-    cons = profile.get("constraints") or []
-    return (
-        f"goal={goal}; horizon={horizon} years; risk={risk}; "
-        f"preferences={', '.join(map(str, prefs))}; constraints={', '.join(map(str, cons))}"
-    )
-
-
-def _llm_select(profile_text: str, candidates: List[Dict[str, Any]], top_n: int = 3) -> Tuple[List[Dict[str, Any]], str]:
+def llm_select(*, profile_text: str, candidates: List[Dict[str, Any]], top_n: int = 3) -> Dict[str, Any]:
     """
     Ask the LLM to pick the best products for the profile from retrieved candidates.
-    Returns (products, explanation).
+    Returns a dict with 'products' and 'explanation'.
+    NOTE: Embedding/retrieval happens elsewhere; this function only ranks/selects.
     """
-    # Keep candidate payload lean to fit context comfortably.
     compact = [
         {
             "id": c.get("productId") or c.get("id") or c.get("name"),
@@ -49,7 +30,7 @@ def _llm_select(profile_text: str, candidates: List[Dict[str, Any]], top_n: int 
 
     system = (
         "You are a fiduciary-quality investment assistant. "
-        "Choose diversified, suitable products that match the user's risk, goal, horizon, and constraints. "
+        "Choose diversified, suitable products that match the user's risk, goal, horizon, preferences and constraints. "
         "Prefer lower fees when quality is similar. Output STRICT JSON only."
     )
 
@@ -81,18 +62,17 @@ Rules:
 - JSON only. No markdown, no commentary.
 """
 
-    raw = chat_complete(
-        prompt=f"{system}\n\n{user}",
-    )
+    raw = chat_complete(system=system, user=user, temperature=0.0, max_tokens=700)
 
-    # Robust JSON extraction (LLMs occasionally wrap).
+    # Robust JSON extraction
     match = re.search(r"\{.*\}\s*$", raw, flags=re.S)
     text = match.group(0) if match else raw
     try:
         data = json.loads(text)
         products = data.get("products", [])
         explanation = data.get("explanation", "")
-        # normalize fields
+
+        # normalize output
         out = []
         for p in products[:top_n]:
             out.append({
@@ -101,29 +81,6 @@ Rules:
                 "why": p.get("why") or "",
                 "score": float(p.get("score") or 0),
             })
-        return out, explanation
+        return {"products": out, "explanation": explanation}
     except Exception:
-        # If parsing fails, degrade gracefully with a minimal message.
-        return [], "LLM could not produce valid JSON."
-    
-
-def product_match(*, profile_json: Dict[str, Any], candidate_k: int = 12, top_n: int = 3) -> Dict[str, Any]:
-    """
-    LLM-based product match:
-    1) embed profile text
-    2) retrieve candidates from Weaviate
-    3) LLM selects top-N and explains
-    """
-    profile_text = _profile_to_text(profile_json)
-    vec = embed_text(profile_text)
-    candidates = search_similar_in_products(vec, limit=candidate_k) or []
-    selected, explanation = _llm_select(profile_text, candidates, top_n=top_n)
-
-    return {
-        "products": selected,
-        "explanation": explanation,
-        "candidate_count": len(candidates),
-    }
-
-
-__all__ = ["product_match"]
+        return {"products": [], "explanation": "LLM could not produce valid JSON."}

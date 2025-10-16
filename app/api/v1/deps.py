@@ -1,3 +1,9 @@
-# app/deps.py
-# Importing these triggers initialization once (embedded Weaviate etc.)
-from app.services.weaviate_db import get_client  # noqa: F401
+# app/api/v1/deps.py
+from app.domain.services.recommendation import recommend as _recommend
+
+def get_recommend():
+    """
+    Dependency injection wrapper for the recommend() service.
+    Later you can replace this with a class-based instance if needed.
+    """
+    return _recommend

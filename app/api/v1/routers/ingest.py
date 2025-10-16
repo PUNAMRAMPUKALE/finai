@@ -1,19 +1,19 @@
-# app/routes/ingest.py
+# app/api/v1/routers/ingest.py
 from fastapi import APIRouter, HTTPException
-from app.schemas import IngestDoc, IngestResponse
-from app.services.embeddings import embed_texts
-from app.services.weaviate_db import insert_document
-from app.utils.pdf_loader import pdf_to_text
-from app.utils.text_chunker import chunk_text
+from app.api.v1.schemas import IngestDoc, IngestResponse
+from app.ml.embeddings import embed_texts
+from app.adapters.vector.weaviate_docs import insert_document
+from app.core.pdf import pdf_to_text
+from app.core.chunking import chunk_text
 
 router = APIRouter(prefix="/ingest", tags=["ingest"])
 
 @router.post("", response_model=IngestResponse)
 def ingest(doc: IngestDoc):
     """
-    POST /ingest
-    - If you pass a file_path to a 10–20 page PDF, we'll extract text, chunk it,
-      create vectors, and store them for search.
+    POST /api/v1/ingest
+    If you pass a file_path to a 10–20 page PDF, we'll extract text, chunk it,
+    create vectors, and store them for search.
     """
     if not doc.text and not doc.file_path:
         raise HTTPException(400, "Provide either 'text' or 'file_path' to a PDF.")
