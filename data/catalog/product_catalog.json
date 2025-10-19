@@ -1,24 +1,602 @@
 [
   {
-    "id": "ETF_APAC_Quality",
-    "name": "APAC Quality ETF",
-    "type": "ETF",
-    "region": "APAC",
-    "terms": "UCITS; Equity; Min investment $100; Index-tracking quality tilt.",
-    "fees": "TER 0.19%",
-    "eligibility": "Retail eligible; No tobacco exposure policy; KIID available.",
-    "riskLabel": "moderate",
-    "description": "Focus on high-quality APAC equities with stable earnings."
-  },
-  {
-    "id": "ETF_Global_Core",
-    "name": "Global Core ETF",
+    "name": "Global Core ETF 01",
     "type": "ETF",
     "region": "Global",
-    "terms": "UCITS; Equity; Broad market exposure; Min $50.",
-    "fees": "TER 0.07%",
+    "terms": "Broad market exposure; Index-tracking; Min $50.",
+    "fees": "TER 0.26%",
+    "eligibility": "Retail eligible; UCITS compliant.",
+    "riskLabel": "high",
+    "description": "Global market beta with diversified large/mid caps. Region: Global. Risk: high."
+  },
+  {
+    "name": "APAC Quality ETF 01",
+    "type": "ETF",
+    "region": "APAC",
+    "terms": "UCITS; Equity; Quality tilt; Min $100.",
+    "fees": "TER 0.05%",
+    "eligibility": "Retail eligible; ESG neutral.",
+    "riskLabel": "low",
+    "description": "Focus on profitable APAC firms with stable earnings quality. Region: APAC. Risk: low."
+  },
+  {
+    "name": "US Dividend ETF 01",
+    "type": "ETF",
+    "region": "US",
+    "terms": "Equity; Dividend-focused; Index-tracking.",
+    "fees": "TER 0.61%",
+    "eligibility": "Retail eligible; Accumulating share class.",
+    "riskLabel": "high",
+    "description": "Tilt toward U.S. dividend payers with consistent distributions. Region: US. Risk: high."
+  },
+  {
+    "name": "Europe Value ETF 01",
+    "type": "ETF",
+    "region": "Europe",
+    "terms": "UCITS; Equity; Value tilt.",
+    "fees": "TER 0.08%",
+    "eligibility": "Retail eligible; ESG neutral.",
+    "riskLabel": "low",
+    "description": "Exposure to undervalued European equities with value style. Region: Europe. Risk: low."
+  },
+  {
+    "name": "EM Growth ETF 01",
+    "type": "ETF",
+    "region": "Emerging",
+    "terms": "UCITS; Equity; Broad EM exposure.",
+    "fees": "TER 0.04%",
+    "eligibility": "Retail eligible; No tobacco exposure policy; KIID available.",
+    "riskLabel": "low",
+    "description": "Broad EM basket emphasizing long-term growth drivers. Region: Emerging. Risk: low."
+  },
+  {
+    "name": "Aggregate Bond ETF 01",
+    "type": "ETF",
+    "region": "Global",
+    "terms": "Fixed income; Investment grade; Broad agg.",
+    "fees": "TER 0.53%",
+    "eligibility": "Retail eligible; Accumulating share class.",
+    "riskLabel": "high",
+    "description": "Core bond exposure across treasuries and corporates. Region: Global. Risk: high."
+  },
+  {
+    "name": "Short-Term Bond ETF 01",
+    "type": "ETF",
+    "region": "US",
+    "terms": "Fixed income; Short duration; Investment grade.",
+    "fees": "TER 0.09%",
+    "eligibility": "Retail eligible; Accumulating share class.",
+    "riskLabel": "low",
+    "description": "Lower duration profile aiming to reduce rate risk. Region: US. Risk: low."
+  },
+  {
+    "name": "Inflation‑Linked Bond ETF 01",
+    "type": "ETF",
+    "region": "US",
+    "terms": "Fixed income; TIPS; Inflation protection.",
+    "fees": "TER 0.13%",
+    "eligibility": "Retail eligible; Accumulating share class.",
+    "riskLabel": "moderate",
+    "description": "Inflation hedging via government-linked bonds. Region: US. Risk: moderate."
+  },
+  {
+    "name": "Clean Energy ETF 01",
+    "type": "ETF",
+    "region": "Global",
+    "terms": "Theme; Renewable energy; Index-tracking.",
+    "fees": "TER 0.30%",
     "eligibility": "Retail eligible; ESG neutral.",
     "riskLabel": "moderate",
-    "description": "Global market beta with large/mid cap exposure."
+    "description": "Renewables value chain including solar, wind, and storage. Region: Global. Risk: moderate."
+  },
+  {
+    "name": "AI & Robotics ETF 01",
+    "type": "ETF",
+    "region": "Global",
+    "terms": "Theme; AI/Robotics; Index-tracking.",
+    "fees": "TER 0.09%",
+    "eligibility": "Retail eligible; UCITS compliant.",
+    "riskLabel": "low",
+    "description": "Automation, semiconductors, and applied AI leaders. Region: Global. Risk: low."
+  },
+  {
+    "name": "Healthcare Innovators ETF 01",
+    "type": "ETF",
+    "region": "Global",
+    "terms": "Theme; Healthcare innovations; Index-tracking.",
+    "fees": "TER 0.11%",
+    "eligibility": "Retail eligible; UCITS compliant.",
+    "riskLabel": "moderate",
+    "description": "Biotech, devices, and digital health innovators. Region: Global. Risk: moderate."
+  },
+  {
+    "name": "FinTech Leaders ETF 01",
+    "type": "ETF",
+    "region": "Global",
+    "terms": "Theme; FinTech; Index-tracking.",
+    "fees": "TER 0.04%",
+    "eligibility": "Retail eligible; ESG neutral.",
+    "riskLabel": "low",
+    "description": "Payments, neo-banking, and market infrastructure firms. Region: Global. Risk: low."
+  },
+  {
+    "name": "Global Core ETF 02",
+    "type": "ETF",
+    "region": "Global",
+    "terms": "Broad market exposure; Index-tracking; Min $50.",
+    "fees": "TER 0.31%",
+    "eligibility": "Retail eligible; Accumulating share class.",
+    "riskLabel": "moderate",
+    "description": "Global market beta with diversified large/mid caps. Region: Global. Risk: moderate."
+  },
+  {
+    "name": "APAC Quality ETF 02",
+    "type": "ETF",
+    "region": "APAC",
+    "terms": "UCITS; Equity; Quality tilt; Min $100.",
+    "fees": "TER 0.30%",
+    "eligibility": "Professional & retail; PRIIPs KID available.",
+    "riskLabel": "moderate",
+    "description": "Focus on profitable APAC firms with stable earnings quality. Region: APAC. Risk: moderate."
+  },
+  {
+    "name": "US Dividend ETF 02",
+    "type": "ETF",
+    "region": "US",
+    "terms": "Equity; Dividend-focused; Index-tracking.",
+    "fees": "TER 0.27%",
+    "eligibility": "Professional & retail; PRIIPs KID available.",
+    "riskLabel": "high",
+    "description": "Tilt toward U.S. dividend payers with consistent distributions. Region: US. Risk: high."
+  },
+  {
+    "name": "Europe Value ETF 02",
+    "type": "ETF",
+    "region": "Europe",
+    "terms": "UCITS; Equity; Value tilt.",
+    "fees": "TER 0.08%",
+    "eligibility": "Retail eligible; Accumulating share class.",
+    "riskLabel": "low",
+    "description": "Exposure to undervalued European equities with value style. Region: Europe. Risk: low."
+  },
+  {
+    "name": "EM Growth ETF 02",
+    "type": "ETF",
+    "region": "Emerging",
+    "terms": "UCITS; Equity; Broad EM exposure.",
+    "fees": "TER 0.23%",
+    "eligibility": "Retail eligible; ESG neutral.",
+    "riskLabel": "moderate",
+    "description": "Broad EM basket emphasizing long-term growth drivers. Region: Emerging. Risk: moderate."
+  },
+  {
+    "name": "Aggregate Bond ETF 02",
+    "type": "ETF",
+    "region": "Global",
+    "terms": "Fixed income; Investment grade; Broad agg.",
+    "fees": "TER 0.09%",
+    "eligibility": "Retail eligible; UCITS compliant.",
+    "riskLabel": "low",
+    "description": "Core bond exposure across treasuries and corporates. Region: Global. Risk: low."
+  },
+  {
+    "name": "Short-Term Bond ETF 02",
+    "type": "ETF",
+    "region": "US",
+    "terms": "Fixed income; Short duration; Investment grade.",
+    "fees": "TER 0.11%",
+    "eligibility": "Retail eligible; ESG neutral.",
+    "riskLabel": "low",
+    "description": "Lower duration profile aiming to reduce rate risk. Region: US. Risk: low."
+  },
+  {
+    "name": "Inflation‑Linked Bond ETF 02",
+    "type": "ETF",
+    "region": "US",
+    "terms": "Fixed income; TIPS; Inflation protection.",
+    "fees": "TER 0.15%",
+    "eligibility": "Retail eligible; UCITS compliant.",
+    "riskLabel": "moderate",
+    "description": "Inflation hedging via government-linked bonds. Region: US. Risk: moderate."
+  },
+  {
+    "name": "Clean Energy ETF 02",
+    "type": "ETF",
+    "region": "Global",
+    "terms": "Theme; Renewable energy; Index-tracking.",
+    "fees": "TER 0.06%",
+    "eligibility": "Retail eligible; No tobacco exposure policy; KIID available.",
+    "riskLabel": "low",
+    "description": "Renewables value chain including solar, wind, and storage. Region: Global. Risk: low."
+  },
+  {
+    "name": "AI & Robotics ETF 02",
+    "type": "ETF",
+    "region": "Global",
+    "terms": "Theme; AI/Robotics; Index-tracking.",
+    "fees": "TER 0.35%",
+    "eligibility": "Retail eligible; ESG neutral.",
+    "riskLabel": "high",
+    "description": "Automation, semiconductors, and applied AI leaders. Region: Global. Risk: high."
+  },
+  {
+    "name": "Healthcare Innovators ETF 02",
+    "type": "ETF",
+    "region": "Global",
+    "terms": "Theme; Healthcare innovations; Index-tracking.",
+    "fees": "TER 0.55%",
+    "eligibility": "Retail eligible; Accumulating share class.",
+    "riskLabel": "high",
+    "description": "Biotech, devices, and digital health innovators. Region: Global. Risk: high."
+  },
+  {
+    "name": "FinTech Leaders ETF 02",
+    "type": "ETF",
+    "region": "Global",
+    "terms": "Theme; FinTech; Index-tracking.",
+    "fees": "TER 0.33%",
+    "eligibility": "Professional & retail; PRIIPs KID available.",
+    "riskLabel": "high",
+    "description": "Payments, neo-banking, and market infrastructure firms. Region: Global. Risk: high."
+  },
+  {
+    "name": "Global Core ETF 03",
+    "type": "ETF",
+    "region": "Global",
+    "terms": "Broad market exposure; Index-tracking; Min $50.",
+    "fees": "TER 0.15%",
+    "eligibility": "Retail eligible; Accumulating share class.",
+    "riskLabel": "moderate",
+    "description": "Global market beta with diversified large/mid caps. Region: Global. Risk: moderate."
+  },
+  {
+    "name": "APAC Quality ETF 03",
+    "type": "ETF",
+    "region": "APAC",
+    "terms": "UCITS; Equity; Quality tilt; Min $100.",
+    "fees": "TER 0.09%",
+    "eligibility": "Retail eligible; ESG neutral.",
+    "riskLabel": "low",
+    "description": "Focus on profitable APAC firms with stable earnings quality. Region: APAC. Risk: low."
+  },
+  {
+    "name": "US Dividend ETF 03",
+    "type": "ETF",
+    "region": "US",
+    "terms": "Equity; Dividend-focused; Index-tracking.",
+    "fees": "TER 0.10%",
+    "eligibility": "Retail eligible; UCITS compliant.",
+    "riskLabel": "low",
+    "description": "Tilt toward U.S. dividend payers with consistent distributions. Region: US. Risk: low."
+  },
+  {
+    "name": "Europe Value ETF 03",
+    "type": "ETF",
+    "region": "Europe",
+    "terms": "UCITS; Equity; Value tilt.",
+    "fees": "TER 0.14%",
+    "eligibility": "Retail eligible; No tobacco exposure policy; KIID available.",
+    "riskLabel": "moderate",
+    "description": "Exposure to undervalued European equities with value style. Region: Europe. Risk: moderate."
+  },
+  {
+    "name": "EM Growth ETF 03",
+    "type": "ETF",
+    "region": "Emerging",
+    "terms": "UCITS; Equity; Broad EM exposure.",
+    "fees": "TER 0.68%",
+    "eligibility": "Retail eligible; UCITS compliant.",
+    "riskLabel": "high",
+    "description": "Broad EM basket emphasizing long-term growth drivers. Region: Emerging. Risk: high."
+  },
+  {
+    "name": "Aggregate Bond ETF 03",
+    "type": "ETF",
+    "region": "Global",
+    "terms": "Fixed income; Investment grade; Broad agg.",
+    "fees": "TER 0.09%",
+    "eligibility": "Professional & retail; PRIIPs KID available.",
+    "riskLabel": "low",
+    "description": "Core bond exposure across treasuries and corporates. Region: Global. Risk: low."
+  },
+  {
+    "name": "Short-Term Bond ETF 03",
+    "type": "ETF",
+    "region": "US",
+    "terms": "Fixed income; Short duration; Investment grade.",
+    "fees": "TER 0.45%",
+    "eligibility": "Retail eligible; UCITS compliant.",
+    "riskLabel": "high",
+    "description": "Lower duration profile aiming to reduce rate risk. Region: US. Risk: high."
+  },
+  {
+    "name": "Inflation‑Linked Bond ETF 03",
+    "type": "ETF",
+    "region": "US",
+    "terms": "Fixed income; TIPS; Inflation protection.",
+    "fees": "TER 0.05%",
+    "eligibility": "Retail eligible; Accumulating share class.",
+    "riskLabel": "low",
+    "description": "Inflation hedging via government-linked bonds. Region: US. Risk: low."
+  },
+  {
+    "name": "Clean Energy ETF 03",
+    "type": "ETF",
+    "region": "Global",
+    "terms": "Theme; Renewable energy; Index-tracking.",
+    "fees": "TER 0.34%",
+    "eligibility": "Retail eligible; Accumulating share class.",
+    "riskLabel": "high",
+    "description": "Renewables value chain including solar, wind, and storage. Region: Global. Risk: high."
+  },
+  {
+    "name": "AI & Robotics ETF 03",
+    "type": "ETF",
+    "region": "Global",
+    "terms": "Theme; AI/Robotics; Index-tracking.",
+    "fees": "TER 0.32%",
+    "eligibility": "Professional & retail; PRIIPs KID available.",
+    "riskLabel": "moderate",
+    "description": "Automation, semiconductors, and applied AI leaders. Region: Global. Risk: moderate."
+  },
+  {
+    "name": "Healthcare Innovators ETF 03",
+    "type": "ETF",
+    "region": "Global",
+    "terms": "Theme; Healthcare innovations; Index-tracking.",
+    "fees": "TER 0.13%",
+    "eligibility": "Retail eligible; No tobacco exposure policy; KIID available.",
+    "riskLabel": "moderate",
+    "description": "Biotech, devices, and digital health innovators. Region: Global. Risk: moderate."
+  },
+  {
+    "name": "FinTech Leaders ETF 03",
+    "type": "ETF",
+    "region": "Global",
+    "terms": "Theme; FinTech; Index-tracking.",
+    "fees": "TER 0.47%",
+    "eligibility": "Retail eligible; ESG neutral.",
+    "riskLabel": "high",
+    "description": "Payments, neo-banking, and market infrastructure firms. Region: Global. Risk: high."
+  },
+  {
+    "name": "Global Core ETF 04",
+    "type": "ETF",
+    "region": "Global",
+    "terms": "Broad market exposure; Index-tracking; Min $50.",
+    "fees": "TER 0.04%",
+    "eligibility": "Retail eligible; No tobacco exposure policy; KIID available.",
+    "riskLabel": "low",
+    "description": "Global market beta with diversified large/mid caps. Region: Global. Risk: low."
+  },
+  {
+    "name": "APAC Quality ETF 04",
+    "type": "ETF",
+    "region": "APAC",
+    "terms": "UCITS; Equity; Quality tilt; Min $100.",
+    "fees": "TER 0.43%",
+    "eligibility": "Retail eligible; ESG neutral.",
+    "riskLabel": "high",
+    "description": "Focus on profitable APAC firms with stable earnings quality. Region: APAC. Risk: high."
+  },
+  {
+    "name": "US Dividend ETF 04",
+    "type": "ETF",
+    "region": "US",
+    "terms": "Equity; Dividend-focused; Index-tracking.",
+    "fees": "TER 0.18%",
+    "eligibility": "Professional & retail; PRIIPs KID available.",
+    "riskLabel": "moderate",
+    "description": "Tilt toward U.S. dividend payers with consistent distributions. Region: US. Risk: moderate."
+  },
+  {
+    "name": "Europe Value ETF 04",
+    "type": "ETF",
+    "region": "Europe",
+    "terms": "UCITS; Equity; Value tilt.",
+    "fees": "TER 0.34%",
+    "eligibility": "Retail eligible; Accumulating share class.",
+    "riskLabel": "high",
+    "description": "Exposure to undervalued European equities with value style. Region: Europe. Risk: high."
+  },
+  {
+    "name": "EM Growth ETF 04",
+    "type": "ETF",
+    "region": "Emerging",
+    "terms": "UCITS; Equity; Broad EM exposure.",
+    "fees": "TER 0.09%",
+    "eligibility": "Retail eligible; ESG neutral.",
+    "riskLabel": "low",
+    "description": "Broad EM basket emphasizing long-term growth drivers. Region: Emerging. Risk: low."
+  },
+  {
+    "name": "Aggregate Bond ETF 04",
+    "type": "ETF",
+    "region": "Global",
+    "terms": "Fixed income; Investment grade; Broad agg.",
+    "fees": "TER 0.69%",
+    "eligibility": "Retail eligible; UCITS compliant.",
+    "riskLabel": "high",
+    "description": "Core bond exposure across treasuries and corporates. Region: Global. Risk: high."
+  },
+  {
+    "name": "Short-Term Bond ETF 04",
+    "type": "ETF",
+    "region": "US",
+    "terms": "Fixed income; Short duration; Investment grade.",
+    "fees": "TER 0.39%",
+    "eligibility": "Retail eligible; UCITS compliant.",
+    "riskLabel": "high",
+    "description": "Lower duration profile aiming to reduce rate risk. Region: US. Risk: high."
+  },
+  {
+    "name": "Inflation‑Linked Bond ETF 04",
+    "type": "ETF",
+    "region": "US",
+    "terms": "Fixed income; TIPS; Inflation protection.",
+    "fees": "TER 0.11%",
+    "eligibility": "Retail eligible; ESG neutral.",
+    "riskLabel": "moderate",
+    "description": "Inflation hedging via government-linked bonds. Region: US. Risk: moderate."
+  },
+  {
+    "name": "Clean Energy ETF 04",
+    "type": "ETF",
+    "region": "Global",
+    "terms": "Theme; Renewable energy; Index-tracking.",
+    "fees": "TER 0.68%",
+    "eligibility": "Retail eligible; UCITS compliant.",
+    "riskLabel": "high",
+    "description": "Renewables value chain including solar, wind, and storage. Region: Global. Risk: high."
+  },
+  {
+    "name": "AI & Robotics ETF 04",
+    "type": "ETF",
+    "region": "Global",
+    "terms": "Theme; AI/Robotics; Index-tracking.",
+    "fees": "TER 0.62%",
+    "eligibility": "Retail eligible; Accumulating share class.",
+    "riskLabel": "high",
+    "description": "Automation, semiconductors, and applied AI leaders. Region: Global. Risk: high."
+  },
+  {
+    "name": "Healthcare Innovators ETF 04",
+    "type": "ETF",
+    "region": "Global",
+    "terms": "Theme; Healthcare innovations; Index-tracking.",
+    "fees": "TER 0.11%",
+    "eligibility": "Retail eligible; UCITS compliant.",
+    "riskLabel": "low",
+    "description": "Biotech, devices, and digital health innovators. Region: Global. Risk: low."
+  },
+  {
+    "name": "FinTech Leaders ETF 04",
+    "type": "ETF",
+    "region": "Global",
+    "terms": "Theme; FinTech; Index-tracking.",
+    "fees": "TER 0.48%",
+    "eligibility": "Retail eligible; No tobacco exposure policy; KIID available.",
+    "riskLabel": "high",
+    "description": "Payments, neo-banking, and market infrastructure firms. Region: Global. Risk: high."
+  },
+  {
+    "name": "Global Core ETF 05",
+    "type": "ETF",
+    "region": "Global",
+    "terms": "Broad market exposure; Index-tracking; Min $50.",
+    "fees": "TER 0.06%",
+    "eligibility": "Retail eligible; No tobacco exposure policy; KIID available.",
+    "riskLabel": "low",
+    "description": "Global market beta with diversified large/mid caps. Region: Global. Risk: low."
+  },
+  {
+    "name": "APAC Quality ETF 05",
+    "type": "ETF",
+    "region": "APAC",
+    "terms": "UCITS; Equity; Quality tilt; Min $100.",
+    "fees": "TER 0.72%",
+    "eligibility": "Retail eligible; Accumulating share class.",
+    "riskLabel": "high",
+    "description": "Focus on profitable APAC firms with stable earnings quality. Region: APAC. Risk: high."
+  },
+  {
+    "name": "US Dividend ETF 05",
+    "type": "ETF",
+    "region": "US",
+    "terms": "Equity; Dividend-focused; Index-tracking.",
+    "fees": "TER 0.08%",
+    "eligibility": "Professional & retail; PRIIPs KID available.",
+    "riskLabel": "low",
+    "description": "Tilt toward U.S. dividend payers with consistent distributions. Region: US. Risk: low."
+  },
+  {
+    "name": "Europe Value ETF 05",
+    "type": "ETF",
+    "region": "Europe",
+    "terms": "UCITS; Equity; Value tilt.",
+    "fees": "TER 0.04%",
+    "eligibility": "Retail eligible; UCITS compliant.",
+    "riskLabel": "low",
+    "description": "Exposure to undervalued European equities with value style. Region: Europe. Risk: low."
+  },
+  {
+    "name": "EM Growth ETF 05",
+    "type": "ETF",
+    "region": "Emerging",
+    "terms": "UCITS; Equity; Broad EM exposure.",
+    "fees": "TER 0.14%",
+    "eligibility": "Retail eligible; No tobacco exposure policy; KIID available.",
+    "riskLabel": "moderate",
+    "description": "Broad EM basket emphasizing long-term growth drivers. Region: Emerging. Risk: moderate."
+  },
+  {
+    "name": "Aggregate Bond ETF 05",
+    "type": "ETF",
+    "region": "Global",
+    "terms": "Fixed income; Investment grade; Broad agg.",
+    "fees": "TER 0.72%",
+    "eligibility": "Retail eligible; ESG neutral.",
+    "riskLabel": "high",
+    "description": "Core bond exposure across treasuries and corporates. Region: Global. Risk: high."
+  },
+  {
+    "name": "Short-Term Bond ETF 05",
+    "type": "ETF",
+    "region": "US",
+    "terms": "Fixed income; Short duration; Investment grade.",
+    "fees": "TER 0.47%",
+    "eligibility": "Retail eligible; ESG neutral.",
+    "riskLabel": "high",
+    "description": "Lower duration profile aiming to reduce rate risk. Region: US. Risk: high."
+  },
+  {
+    "name": "Inflation‑Linked Bond ETF 05",
+    "type": "ETF",
+    "region": "US",
+    "terms": "Fixed income; TIPS; Inflation protection.",
+    "fees": "TER 0.62%",
+    "eligibility": "Retail eligible; No tobacco exposure policy; KIID available.",
+    "riskLabel": "high",
+    "description": "Inflation hedging via government-linked bonds. Region: US. Risk: high."
+  },
+  {
+    "name": "Clean Energy ETF 05",
+    "type": "ETF",
+    "region": "Global",
+    "terms": "Theme; Renewable energy; Index-tracking.",
+    "fees": "TER 0.46%",
+    "eligibility": "Retail eligible; Accumulating share class.",
+    "riskLabel": "high",
+    "description": "Renewables value chain including solar, wind, and storage. Region: Global. Risk: high."
+  },
+  {
+    "name": "AI & Robotics ETF 05",
+    "type": "ETF",
+    "region": "Global",
+    "terms": "Theme; AI/Robotics; Index-tracking.",
+    "fees": "TER 0.05%",
+    "eligibility": "Retail eligible; Accumulating share class.",
+    "riskLabel": "low",
+    "description": "Automation, semiconductors, and applied AI leaders. Region: Global. Risk: low."
+  },
+  {
+    "name": "Healthcare Innovators ETF 05",
+    "type": "ETF",
+    "region": "Global",
+    "terms": "Theme; Healthcare innovations; Index-tracking.",
+    "fees": "TER 0.34%",
+    "eligibility": "Retail eligible; Accumulating share class.",
+    "riskLabel": "moderate",
+    "description": "Biotech, devices, and digital health innovators. Region: Global. Risk: moderate."
+  },
+  {
+    "name": "FinTech Leaders ETF 05",
+    "type": "ETF",
+    "region": "Global",
+    "terms": "Theme; FinTech; Index-tracking.",
+    "fees": "TER 0.58%",
+    "eligibility": "Retail eligible; UCITS compliant.",
+    "riskLabel": "high",
+    "description": "Payments, neo-banking, and market infrastructure firms. Region: Global. Risk: high."
   }
 ]

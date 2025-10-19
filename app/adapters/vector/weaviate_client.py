@@ -5,6 +5,8 @@ import weaviate
 DOCS = "Document"
 PROD = "Product"
 USER = "UserProfile"
+STARTUP = "Startup"
+INVESTOR = "Investor"
 _client = None
 
 def get_client():
@@ -44,4 +46,27 @@ def ensure_schema(client):
         Property(name="risk", data_type=DataType.TEXT),
         Property(name="preferences", data_type=DataType.TEXT_ARRAY),
         Property(name="constraints", data_type=DataType.TEXT_ARRAY),
+    ])
+
+
+    ensure_coll(STARTUP, [
+        Property(name="startupId", data_type=DataType.TEXT),
+        Property(name="name", data_type=DataType.TEXT),
+        Property(name="title", data_type=DataType.TEXT),
+        Property(name="content", data_type=DataType.TEXT),
+        Property(name="sector", data_type=DataType.TEXT),
+        Property(name="stage", data_type=DataType.TEXT),
+        Property(name="region", data_type=DataType.TEXT),
+        Property(name="geo", data_type=DataType.TEXT),
+        Property(name="source", data_type=DataType.TEXT),
+    ])
+
+    ensure_coll(INVESTOR, [
+        Property(name="name", data_type=DataType.TEXT),
+        Property(name="sectors", data_type=DataType.TEXT),
+        Property(name="stages", data_type=DataType.TEXT),
+        Property(name="geo", data_type=DataType.TEXT),
+        Property(name="checkSize", data_type=DataType.TEXT),
+        Property(name="thesis", data_type=DataType.TEXT),
+        Property(name="constraints", data_type=DataType.TEXT),
     ])

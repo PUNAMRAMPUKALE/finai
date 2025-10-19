@@ -1,13 +1,15 @@
-# app/utils/pdf_loader.py
-from pypdf import PdfReader
+# app/core/pdf.py
+from typing import Union
+from io import BytesIO
+from pypdf import PdfReader  # pypdf is the modern package
 
-def pdf_to_text(path: str) -> str:
-    """
-    Opens a PDF and returns all text in order.
-    Works fine for 10–20 (or more) pages.
-    """
-    reader = PdfReader(path)
-    parts = []
+def pdf_to_text(content: Union[bytes, BytesIO]) -> str:
+    bio = BytesIO(content) if isinstance(content, bytes) else content
+    reader = PdfReader(bio)
+    texts = []
     for page in reader.pages:
-        parts.append(page.extract_text() or "")
-    return "\n".join(parts)
+        try:
+            texts.append(page.extract_text() or "")
+        except Exception:
+            continue
+    return "\n".join(texts).strip()
