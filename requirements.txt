@@ -18,4 +18,9 @@ crewai-tools==0.76.0
 httpx==0.28.1
 prometheus_client==0.20.0
 python-multipart>=0.0.9
+passlib[bcrypt]==1.7.4
+python-jose==3.3.0
+sqlmodel==0.0.21  # tiny ORM on top of sqlite; optional but handy
+email-validator==2.2.0
+prometheus-fastapi-instrumentator==7.0.0
 

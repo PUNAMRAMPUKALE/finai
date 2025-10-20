@@ -1,32 +1,26 @@
 from fastapi import FastAPI
-from app.api.v1.routers import ingest, products, profiles, insights, recommend, crew, graph
-from app.core.observability import ObservabilityMiddleware, metrics_router   # ✅ add
-from app.api.v1.routers import startups, investors
+from fastapi.middleware.cors import CORSMiddleware
+from prometheus_fastapi_instrumentator import Instrumentator  # <- add
 
-def create_app() -> FastAPI:
-    app = FastAPI(title="FinAI", version="1.0")
+from app.api.v1.routers import auth, match
 
-    # ✅ observability: logs + latency metrics
-    app.add_middleware(ObservabilityMiddleware)
+app = FastAPI(title="Startup→Investor Matcher (Minimal)")
 
-    API_V1 = "/api/v1"
-    app.include_router(ingest.router,    prefix=API_V1)
-    app.include_router(products.router,  prefix=API_V1)
-    app.include_router(profiles.router,  prefix=API_V1)
-    app.include_router(insights.router,  prefix=API_V1)
-    app.include_router(recommend.router, prefix=API_V1)
-    app.include_router(crew.router,      prefix=API_V1)
-    app.include_router(graph.router,     prefix=API_V1)
-    app.include_router(startups.router,  prefix=API_V1)
-    app.include_router(investors.router, prefix=API_V1)
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://localhost:5173", "http://127.0.0.1:5173", "*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
+# expose /metrics
+Instrumentator().instrument(app).expose(app, endpoint="/metrics", include_in_schema=False)
 
-    app.include_router(metrics_router)
+# Routes
+app.include_router(auth.router,  prefix="/api/v1")
+app.include_router(match.router, prefix="/api/v1")
 
-    @app.get("/health")
-    def health():
-        return {"status": "ok"}
-
-    return app
-
-app = create_app()
+@app.get("/health")
+def health():
+    return {"ok": True}
