@@ -35,5 +35,6 @@ def ensure_schema(client):
                 Property(name="checkSize",   data_type=DataType.TEXT),
                 Property(name="thesis",      data_type=DataType.TEXT),
                 Property(name="constraints", data_type=DataType.TEXT),
+                Property(name="profile",     data_type=DataType.TEXT),  # NEW: longform text for RAG
             ],
         )
