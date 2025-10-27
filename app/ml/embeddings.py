@@ -1,6 +1,8 @@
 from functools import lru_cache
 from typing import List
 from sentence_transformers import SentenceTransformer
+import os
+os.environ.setdefault("TOKENIZERS_PARALLELISM", "false")
 
 @lru_cache(maxsize=1)
 def _model():

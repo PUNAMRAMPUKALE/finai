@@ -1,12 +1,14 @@
-# app/main.py
+from dotenv import load_dotenv
+load_dotenv()
+
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from prometheus_fastapi_instrumentator import Instrumentator
 
-# Existing routers
-from app.api.v1.routers import auth, match
-# Add your new investors router here (but not investor_ingest)
-from app.api.v1.routers import investors
+from app.db.core import init_db
+from app.api.v1.routers import auth, match, investors, products
+
+
 
 app = FastAPI(title="Startup→Investor Matcher")
 
@@ -20,10 +22,16 @@ app.add_middleware(
 
 Instrumentator().instrument(app).expose(app, endpoint="/metrics", include_in_schema=False)
 
-# Include routers
+@app.on_event("startup")
+def on_startup():
+    init_db()
+
 app.include_router(auth.router,  prefix="/api/v1")
 app.include_router(match.router, prefix="/api/v1")
-app.include_router(investors.router, prefix="/api/v1")  # ✅ works without investor_ingest
+app.include_router(investors.router, prefix="/api/v1")
+app.include_router(products.router, prefix="/api/v1")
+from app.api.v1.routers import auth, match, investors, products
+
 
 @app.get("/health")
 def health():

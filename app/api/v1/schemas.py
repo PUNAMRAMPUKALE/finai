@@ -1,3 +1,4 @@
+# app/api/v1/schemas.py
 from pydantic import BaseModel, EmailStr
 from typing import List, Dict, Any, Optional
 
@@ -5,14 +6,18 @@ from typing import List, Dict, Any, Optional
 class RegisterReq(BaseModel):
     email: EmailStr
     password: str
+    # optional:
+    # full_name: Optional[str] = None
 
 class LoginReq(BaseModel):
     email: EmailStr
     password: str
 
+# ➜ ADD THIS (used by auth.py’s get_current_user/me)
 class User(BaseModel):
-    id: str
+    id: str | int
     email: EmailStr
+
 
 # --- Ingest investors ---
 class InvestorList(BaseModel):
@@ -24,7 +29,7 @@ class IngestResponse(BaseModel):
 # --- Match ---
 class MatchResponse(BaseModel):
     matches: List[Dict[str, Any]]
-    query_text: Optional[str] = None  # NEW
+    query_text: Optional[str] = None
 
 # --- Investor profile / RAG ---
 class InvestorProfile(BaseModel):
@@ -58,4 +63,4 @@ class QAReq(BaseModel):
 
 class QAResp(BaseModel):
     answer: str
-    snippets: List[Dict[str, Any]]
+    snippets: List[Dict[str, Any]] = []
