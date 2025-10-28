@@ -15,8 +15,6 @@ services:
         value: https://finai-frontend.onrender.com
       - key: OPENAI_API_KEY
         sync: false
-      - key: UPLOAD_DIR
-        value: /var/data/uploads
       - key: PYTHONUNBUFFERED
         value: "1"
     disks:
