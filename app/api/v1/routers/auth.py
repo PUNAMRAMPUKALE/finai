@@ -1,4 +1,3 @@
-# app/api/v1/routers/auth.py
 from fastapi import APIRouter, HTTPException, Header, Depends
 from typing import Optional, Dict
 
@@ -129,6 +128,6 @@ def get_current_user(
         return User(id=u["id"], email=u["email"])
 
 
-@router.get("/me")
+@router.get("/me", response_model=User)
 def me(user: User = Depends(get_current_user)):
     return user

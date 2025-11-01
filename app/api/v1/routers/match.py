@@ -1,4 +1,3 @@
-# app/api/v1/routers/match.py
 from fastapi import APIRouter, UploadFile, File, Form, HTTPException, Depends
 from typing import List, Dict, Any, Optional
 from pathlib import Path
@@ -7,7 +6,7 @@ from collections import Counter
 
 from sqlmodel import Session, select
 
-from .auth import get_current_user
+from app.deps import get_current_user   # ← unified import
 from app.db.core import get_session
 from app.db.models import Pitch, Match, Investor
 from app.utils.pdf_loader import pdf_to_text, PdfExtractError

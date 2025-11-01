@@ -1,4 +1,3 @@
-# app/api/v1/routers/investors.py
 from fastapi import APIRouter, HTTPException, Depends
 from pydantic import BaseModel
 from typing import List, Dict, Any, Optional
@@ -6,7 +5,7 @@ from sqlalchemy.exc import IntegrityError
 from sqlmodel import Session, select
 import os
 
-from .auth import get_current_user
+from app.deps import get_current_user   # ← unified import
 from app.adapters.vector.weaviate_client import get_client, INVESTOR
 from app.db.models import Investor, QAResponse
 from app.db.core import get_session
@@ -211,7 +210,6 @@ def analyze_investor(payload: AnalyzeReq, u=Depends(get_current_user), db: Sessi
 
     return {"context_snippets": snippets, "agents": agents, "score_hint": score_hint}
 
-# ---------- QA ----------
 def _build_context(inv: Dict[str, Any], pitch_summary: str, question: str) -> str:
     fields = [
         ("Name", inv.get("name", "")),
