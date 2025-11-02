@@ -1,23 +1,19 @@
 # app/api/v1/schemas.py
-from pydantic import BaseModel, EmailStr
+from pydantic import BaseModel, EmailStr, Field
 from typing import List, Dict, Any, Optional
 
 # --- Auth ---
 class RegisterReq(BaseModel):
     email: EmailStr
     password: str
-    # optional:
-    # full_name: Optional[str] = None
 
 class LoginReq(BaseModel):
     email: EmailStr
     password: str
 
-# ➜ ADD THIS (used by auth.py’s get_current_user/me)
 class User(BaseModel):
     id: str | int
     email: EmailStr
-
 
 # --- Ingest investors ---
 class InvestorList(BaseModel):
@@ -34,13 +30,16 @@ class MatchResponse(BaseModel):
 # --- Investor profile / RAG ---
 class InvestorProfile(BaseModel):
     name: str
+    firm: Optional[str] = None
     sectors: Optional[str] = ""
     stages: Optional[str] = ""
     geo: Optional[str] = ""
-    checkSize: Optional[str] = ""
     thesis: Optional[str] = ""
     constraints: Optional[str] = ""
     profile: Optional[str] = ""
+    check_min: Optional[float] = None
+    check_max: Optional[float] = None
+    check_currency: Optional[str] = "USD"
 
 class AnalysisReq(BaseModel):
     name: str
@@ -57,10 +56,17 @@ class AnalysisResp(BaseModel):
     score_hint: int
 
 class QAReq(BaseModel):
+    # View Profile → send only name/question, or add mode="profile"
+    # Fit/Match → include pitchSummary and/or mode="fit"
     name: str
-    question: str
-    pitch_summary: Optional[str] = ""
+    question: str = Field(alias="questionText")
+    pitch_summary: Optional[str] = Field(default="", alias="pitchSummary")
+    mode: Optional[str] = "profile"  # "profile" | "fit"
+
+    class Config:
+        populate_by_name = True
 
 class QAResp(BaseModel):
     answer: str
     snippets: List[Dict[str, Any]] = []
+    citations: List[Dict[str, Any]] = []  # { text, score, citation: {source,title,field} }

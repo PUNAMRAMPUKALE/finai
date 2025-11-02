@@ -1,4 +1,5 @@
-from fastapi import APIRouter, HTTPException, Header, Depends
+# app/api/v1/routers/auth.py
+from fastapi import APIRouter, HTTPException, Header, Depends, Form
 from typing import Optional, Dict
 
 from app.api.v1.schemas import RegisterReq, LoginReq, User
@@ -28,7 +29,7 @@ except Exception:
 
 router = APIRouter(prefix="/auth", tags=["auth"])
 
-# In-memory user store for demo / fallback
+# In-memory user store for demo / fallback (volatile)
 _USERS: Dict[str, Dict[str, str]] = {}
 
 
@@ -52,6 +53,11 @@ def _db_create_user(db: "Session", email: str, password: str) -> "UserModel":
 
 
 # ------------ Routes ------------
+@router.get("/debug_path")
+def debug_path():
+    """Quick check: are we using DB or in-memory?"""
+    return {"auth_backend": "db" if _HAS_DB else "memory"}
+
 @router.post("/register")
 def register(req: RegisterReq, db: "Session" = SessionDep if _HAS_DB else None):
     """
@@ -60,25 +66,21 @@ def register(req: RegisterReq, db: "Session" = SessionDep if _HAS_DB else None):
     - Else -> use in-memory fallback.
     """
     if _HAS_DB:
-        # DB path
         if _db_get_user_by_email(db, req.email):
             raise HTTPException(status_code=400, detail="User exists")
         _db_create_user(db, req.email, req.password)
-        return {"ok": True}
+        return {"ok": True, "backend": "db"}
     else:
-        # In-memory fallback (UNCHANGED)
         if req.email in _USERS:
             raise HTTPException(status_code=400, detail="User exists")
         _mem_create_user(req.email, req.password)
-        return {"ok": True}
-
+        return {"ok": True, "backend": "memory"}
 
 @router.post("/login")
 def login(req: LoginReq, db: "Session" = SessionDep if _HAS_DB else None):
     """
-    Login:
-    - DB path verifies against stored hash in DB
-    - Fallback path verifies against _USERS
+    JSON login:
+    Body: { "email": "...", "password": "..." }
     Returns: { access_token, token_type }
     """
     if _HAS_DB:
@@ -86,15 +88,38 @@ def login(req: LoginReq, db: "Session" = SessionDep if _HAS_DB else None):
         if not u or not verify_password(req.password, u.hashed_password):
             raise HTTPException(status_code=401, detail="Invalid credentials")
         token = create_access_token(sub=u.email)
-        return {"access_token": token, "token_type": "bearer"}
+        return {"access_token": token, "token_type": "bearer", "backend": "db"}
     else:
-        # In-memory fallback (UNCHANGED)
         u = _USERS.get(req.email)
         if not u or not verify_password(req.password, u["hashed"]):
             raise HTTPException(status_code=401, detail="Invalid credentials")
         token = create_access_token(sub=u["id"])
-        return {"access_token": token, "token_type": "bearer"}
+        return {"access_token": token, "token_type": "bearer", "backend": "memory"}
 
+@router.post("/login-form")
+def login_form(
+    username: str = Form(...),
+    password: str = Form(...),
+    db: "Session" = SessionDep if _HAS_DB else None,
+):
+    """
+    Form-encoded login for browsers/OAuth2-style clients.
+    Body (x-www-form-urlencoded): username=<email>&password=<pw>
+    Returns: { access_token, token_type }
+    """
+    email = username  # alias
+    if _HAS_DB:
+        u = _db_get_user_by_email(db, email)
+        if not u or not verify_password(password, u.hashed_password):
+            raise HTTPException(status_code=401, detail="Invalid credentials")
+        token = create_access_token(sub=u.email)
+        return {"access_token": token, "token_type": "bearer", "backend": "db"}
+    else:
+        u = _USERS.get(email)
+        if not u or not verify_password(password, u["hashed"]):
+            raise HTTPException(status_code=401, detail="Invalid credentials")
+        token = create_access_token(sub=u["id"])
+        return {"access_token": token, "token_type": "bearer", "backend": "memory"}
 
 def get_current_user(
     authorization: Optional[str] = Header(default=None),
@@ -104,7 +129,7 @@ def get_current_user(
     Extract current user from Bearer token.
     - DB path fetches user row
     - Fallback returns from in-memory store
-    Response model remains your original `User` schema.
+    Response model: `User`
     """
     if not authorization or not authorization.lower().startswith("bearer "):
         raise HTTPException(status_code=401, detail="Missing bearer token")
@@ -121,12 +146,10 @@ def get_current_user(
             raise HTTPException(status_code=401, detail="User not found")
         return User(id=str(u.id), email=u.email)
     else:
-        # In-memory fallback (UNCHANGED)
         u = _USERS.get(uid)
         if not u:
             raise HTTPException(status_code=401, detail="User not found")
         return User(id=u["id"], email=u["email"])
-
 
 @router.get("/me", response_model=User)
 def me(user: User = Depends(get_current_user)):
