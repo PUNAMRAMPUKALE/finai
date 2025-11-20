@@ -3,15 +3,12 @@ from __future__ import annotations
 from datetime import datetime
 from typing import Optional, Any, Dict
 
-
-from sqlalchemy import Column
+from sqlalchemy import Column, Index
 from sqlalchemy.types import JSON
-from sqlmodel import SQLModel, Field
+from sqlmodel import SQLModel, Field, Column, JSON
 
-
-from sqlmodel import Field, SQLModel, Column, JSON
 # -------------------------
-# EXISTING TABLES (unchanged)
+# EXISTING TABLES
 # -------------------------
 
 class User(SQLModel, table=True):
@@ -38,10 +35,15 @@ class Investor(SQLModel, table=True):
     weaviate_id: Optional[str] = None
     created_at: datetime = Field(default_factory=datetime.utcnow)
 
+    __table_args__ = (
+        # e.g. dashboard queries filtered by (geo, sectors, stages)
+        Index("ix_investor_geo_sectors_stages", "geo", "sectors", "stages"),
+    )
+
 
 class Pitch(SQLModel, table=True):
     id: Optional[int] = Field(default=None, primary_key=True)
-    user_id: int = Field(foreign_key="user.id")
+    user_id: int = Field(foreign_key="user.id", index=True)
     file_path: str
     summary: str
     vector_id: Optional[str] = None
@@ -56,22 +58,23 @@ class Match(SQLModel, table=True):
     distance: Optional[float] = None
     created_at: datetime = Field(default_factory=datetime.utcnow)
 
+    __table_args__ = (
+        # fast lookups: “all matches for this pitch ordered by score”
+        Index("ix_match_pitch_score", "pitch_id", "score_pct"),
+    )
+
 
 class QAResponse(SQLModel, table=True):
     id: Optional[int] = Field(default=None, primary_key=True)
     investor_name: str = Field(index=True)
-    user_id: int = Field(foreign_key="user.id")
+    user_id: int = Field(foreign_key="user.id", index=True)
     question: str
     answer: str
     created_at: datetime = Field(default_factory=datetime.utcnow)
 
-
-# -------------------------
-# NEW TABLES (additive only)
-# -------------------------
-
-
-# ... keep your other models as-is ...
+    __table_args__ = (
+        Index("ix_qa_investor_user_created", "investor_name", "user_id", "created_at"),
+    )
 
 
 class Product(SQLModel, table=True):
@@ -86,5 +89,8 @@ class Product(SQLModel, table=True):
     eligibility: Optional[str] = None
     risk_label: Optional[str] = None
     meta: Optional[dict] = Field(default=None, sa_column=Column(JSON))
-    # ✅ add this line
     created_at: datetime = Field(default_factory=datetime.utcnow)
+
+    __table_args__ = (
+        Index("ix_product_type_region", "type", "region"),
+    )
